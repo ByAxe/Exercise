@@ -1,4 +1,4 @@
-package exercises.regExp.practice1;
+package exercises.regexp.practice1;
 
 /**
     Проверяется ввод логина, состоящего

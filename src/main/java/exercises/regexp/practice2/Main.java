@@ -1,4 +1,4 @@
-package exercises.regExp.practice2;
+package exercises.regexp.practice2;
 
 /**
     Создайте валидацию IP-адреса и E-mail
