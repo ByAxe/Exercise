@@ -1,6 +1,7 @@
 package exercises.college.arrays.exercise1;
 
 import interfaces.IDeclare;
+import regular.experience.RegExp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +27,8 @@ public class Array implements IDeclare {
         if (!lock) {
             Random r = new Random(System.currentTimeMillis());
             for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < columns; j++) {
-                    array[i][j] = r.nextInt(100) - 50;
-                }
+                for (int j = 0; j < columns; j++) array[i][j] = r.nextInt(100) - 50;
+                /* TODO ArrayIndexOutOfBoundsException when I enter different values in row and col*/
             }
             lock = true;
         } else {
@@ -36,34 +36,24 @@ public class Array implements IDeclare {
         }
     }
 
-    private void questionAboutRewriting(String currentOperation) {
-        System.out.println("Collection is already filled by operation:\n\t"
+    private boolean questionAboutRewriting(String currentOperation) {
+        System.out.println("Collection is already filled by method:\n\t"
                 + message + ".");
-        System.out.print("Do you want to rewrite it on:\n\t" +
-                currentOperation + " ?... (yes/no) ");
+        return ((RegExp.checkOnCorrectValue("Do you want to rewrite it on:\n\t" +
+                currentOperation + " ?... (yes/no)", RegExp.ANSWER)).equalsIgnoreCase(RegExp.YES));
+
     }
 
     private boolean checkOnFill() {
-        return tempData.stream().findFirst() != null; /*TODO I'm not sure in .findfirst()*/
-    }
-
-    private boolean answerAboutRewriting() {
-        String answer;
-        answer = scan.next();
-        return "yes".equalsIgnoreCase(answer); /* TODO rewrite it with RegExp*/
+        return tempData.stream().findFirst() != null;
     }
 
     private boolean listHandler(String currentOperation) {
-        if (checkOnFill()) {
-            questionAboutRewriting(currentOperation);
-            return answerAboutRewriting();
-        }
-        return false;
+        return checkOnFill() && questionAboutRewriting(currentOperation);
     }
 
     public void sumOfRow() {
         String currentOperation = "Sum of row";
-        this.message = currentOperation;
         int tempSum;
         if (listHandler(currentOperation)) {
             for (int i = 0; i < rows; i++) {
@@ -104,7 +94,7 @@ public class Array implements IDeclare {
     public void outputOfArray() {
         tempData.stream().forEach(System.out::println);
         tempData.clear();
-        if (tempData2.stream().findFirst() != null) {   /*TODO Here I may get exception */
+        if (tempData2.stream().findFirst() != null) {   /*TODO It still passes even if there no values  */
             tempData2.stream().forEach(System.out::println);
         }
     }

@@ -6,5 +6,4 @@ import java.util.Scanner;
 
 public interface IDeclare {
     Scanner scan = new Scanner(System.in);
-    RegExp regExp = new RegExp();
 }
