@@ -1,11 +1,12 @@
 package exercises.college.arrays.exercise1;
 
 import interfaces.IDeclare;
-import regular.experience.RegExp;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static regular.experience.RegExp.*;
 
 public class Array implements IDeclare {
 
@@ -20,7 +21,7 @@ public class Array implements IDeclare {
     public Array(int columns, int rows) {
         this.columns = columns;
         this.rows = rows;
-        array = new int[columns][rows];
+        array = new int[rows][columns];
     }
 
     public void fillRand() {
@@ -39,23 +40,23 @@ public class Array implements IDeclare {
     private boolean questionAboutRewriting(String currentOperation) {
         System.out.println("Collection is already filled by method:\n\t"
                 + message + ".");
-        return ((RegExp.checkOnCorrectValue("Do you want to rewrite it on:\n\t" +
-                currentOperation + " ?... (yes/no)", RegExp.ANSWER)).equalsIgnoreCase(RegExp.YES));
-
+        return ((checkOnCorrectValue("Do you want to rewrite it on:\n\t" +
+                currentOperation + " ?... (yes/no)", ANSWER)).equalsIgnoreCase(YES));
     }
 
-    private boolean checkOnFill() {
-        return tempData.stream().findFirst() != null;
+    protected boolean checkOnFill() {
+        return message != null;
     }
 
     private boolean listHandler(String currentOperation) {
-        return checkOnFill() && questionAboutRewriting(currentOperation);
+        return !(checkOnFill() && questionAboutRewriting(currentOperation));
     }
 
     public void sumOfRow() {
         String currentOperation = "Sum of row";
         int tempSum;
         if (listHandler(currentOperation)) {
+            tempData.clear();
             for (int i = 0; i < rows; i++) {
                 tempSum = 0;
                 for (int j = 0; j < columns; j++) {
@@ -63,21 +64,25 @@ public class Array implements IDeclare {
                 }
                 tempData.add(tempSum);
             }
-            this.message = "Sum of row";
+            this.message = currentOperation;
         }
     }
 
     public void averageOfRow() {
+        String currentOperation = "Average of row";
         int tempValue;
-        for (int i = 0; i < rows; i++) {
-            tempValue = 0;
-            for (int j = 0; j < columns; j++) {
-                tempValue += array[i][j];
+        if (listHandler(currentOperation)) {
+            tempData.clear();
+            for (int i = 0; i < rows; i++) {
+                tempValue = 0;
+                for (int j = 0; j < columns; j++) {
+                    tempValue += array[i][j];
+                }
+                tempData.add(tempValue / columns);
             }
-            tempData.add(tempValue / columns);
+            this.message = currentOperation;
         }
     }
-
     public void sumAndAverageOfNegativeNumbersInRow() {
         int tempAverage;
         int tempSum;
@@ -94,7 +99,7 @@ public class Array implements IDeclare {
     public void outputOfArray() {
         tempData.stream().forEach(System.out::println);
         tempData.clear();
-        if (tempData2.stream().findFirst() != null) {   /*TODO It still passes even if there no values  */
+        if (tempData2.size() == 0) {   /*TODO It still passes even if there no values  */
             tempData2.stream().forEach(System.out::println);
         }
     }

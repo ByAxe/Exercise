@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 public class RegExp implements IDeclare {
 
     public static final String ANSWER = "([Yy][Ee][Ss])|([Nn][Oo])";
+    public static final String NUMERIC = "[0-9]+";
     public static final String YES = "yes";
 
 
