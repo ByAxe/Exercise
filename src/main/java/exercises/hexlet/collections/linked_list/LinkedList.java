@@ -10,6 +10,7 @@ public class LinkedList<T> implements List<T> {
 
     private Item<T> first = null;
     private Item<T> last = null;
+
     private int size;
 
     @Override
@@ -24,7 +25,18 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public boolean add(final T t) {
-        return false;
+        if (isEmpty()) {
+            this.first = new Item<>(t, null, null);
+            this.last = null;
+        } else if (size == 1) {
+            this.last = new Item<>(t, this.first, null);
+        } else {
+            final Item<T> newLast = new Item<>(t, this.last, null);
+            this.last.next = newLast;
+            this.last = newLast;
+        }
+        size++;
+        return true;
     }
 
     @Override
@@ -42,10 +54,11 @@ public class LinkedList<T> implements List<T> {
         return false;
     }
 
-    public void addFirst(final T element){
+    public void addFirst(final T element) {
 
     }
-    public void addLast(final T element){
+
+    public void addLast(final T element) {
 
     }
 
@@ -209,10 +222,10 @@ public class LinkedList<T> implements List<T> {
         private Item<T> next;
         private Item<T> previous;
 
-        public Item(final T element, final Item<T> next, final Item<T> previous) {
+        public Item(final T element, final Item<T> previous, final Item<T> next) {
             this.element = element;
-            this.next = next;
             this.previous = previous;
+            this.next = next;
         }
 
         public T getElement() {
