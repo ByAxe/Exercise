@@ -1,6 +1,6 @@
 package exercises.hexlet.collections;
 
-import org.openjdk.jmh.annotations.Benchmark;
+//import org.openjdk.jmh.annotations.Benchmark;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CollectionTest {
 
-    @Benchmark
+//    @Benchmark
     public void testArrayListAddMethod() {
         final List<Integer> intList = new ArrayList();
 
@@ -16,7 +16,7 @@ public class CollectionTest {
             intList.add(i);
     }
 
-    @Benchmark
+//    @Benchmark
     public void testLinkedListAddMethod() {
         final List<Integer> intList = new LinkedList<>();
 

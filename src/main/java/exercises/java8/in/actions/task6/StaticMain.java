@@ -1,7 +1,5 @@
 package exercises.java8.in.actions.task6;
 
-import java.util.Iterator;
-
 /**
  * Created by byaxe on 2/6/16.
  */
@@ -12,6 +10,5 @@ public class StaticMain {
     }
 
     public static void main(String[] args) {
-        new Iterator<>();
     }
 }
