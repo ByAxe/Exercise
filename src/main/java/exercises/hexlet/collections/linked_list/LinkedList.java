@@ -1,10 +1,8 @@
 package exercises.hexlet.collections.linked_list;
 
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class LinkedList<T> implements List<T> {
 
@@ -40,7 +38,7 @@ public class LinkedList<T> implements List<T> {
     }
 
     @Override
-    public void add(final int index, final T element) {
+    public void add(final int index, final T t) {
 
     }
 
@@ -69,6 +67,10 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public boolean contains(final Object o) {
+        if (first == null) return false;
+        for (T item : this) {
+            if (item.equals(o)) return true;
+        }
         return false;
     }
 
@@ -79,17 +81,38 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        final T[] array = (T[]) new Object[size];
+        int counter = 0;
+        for (T item : this) {
+            array[counter++] = item;
+        }
+        return array;
     }
 
     @Override
-    public <T1> T1[] toArray(final T1[] a) {
-        return null;
+    public <R> R[] toArray(R[] a) {
+        if (a.length < size) a = (R[]) Array.newInstance(a.getClass().getComponentType(), size);
+
+        int counter = 0;
+        Object[] result = a;
+
+        for (Item<T> e = first; e != null; e = e.next) result[counter++] = e.element;
+
+        if (a.length > size) a[size] = null;
+
+        return a;
     }
 
     @Override
     public boolean remove(final Object o) {
-        return false;
+        if (isEmpty()) return false;
+        Item<T> current = this.first;
+        while (current.next != null && !current.element.equals(o)) current = current.next;
+
+        if(current.element.equals(o)){
+        }
+
+        return true;
     }
 
     @Override
@@ -162,6 +185,8 @@ public class LinkedList<T> implements List<T> {
 
         private Item<T> current;
         private Item<T> last;
+        private int nextIndex;
+
 
         public ElementsIterator() {
             this(0);
@@ -178,12 +203,15 @@ public class LinkedList<T> implements List<T> {
 
         @Override
         public T next() {
-            return null;
+            if (!hasNext()) throw new NoSuchElementException();
+            last = current;
+            current = current.next;
+            return last.element;
         }
 
         @Override
         public boolean hasPrevious() {
-            return false;
+            return true;
         }
 
         @Override
@@ -208,12 +236,13 @@ public class LinkedList<T> implements List<T> {
 
         @Override
         public void set(T t) {
-
+            if (last == null) throw new IllegalStateException();
+            last.element = t;
         }
 
         @Override
         public void add(T t) {
-
+            LinkedList.this.add(t);
         }
     }
 

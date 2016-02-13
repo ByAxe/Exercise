@@ -1,6 +1,6 @@
-package exercise.hexlet.collections.linked_list;
+package exercises.hexlet.collections.array_list;
 
-import exercises.hexlet.collections.linked_list.LinkedList;
+import exercises.hexlet.collections.ArrayCollection;
 import org.junit.Test;
 
 import java.util.Collection;
@@ -9,21 +9,23 @@ import java.util.ListIterator;
 
 import static org.junit.Assert.*;
 
-public class LinkedListTest {
+public class ArrayListTest {
 
     @Test
     public void testSizeWhenSizeIs0() throws Exception {
-        assertEquals(0, new LinkedList<>().size());
+        final Collection<Integer> testInstance = new ArrayCollection<>();
+        assertEquals(0, testInstance.size());
     }
 
     @Test
     public void testIsEmptyWhenEmpty() throws Exception {
-        assertTrue(new LinkedList<>().isEmpty());
+        final Collection<Integer> emptyCollection = new ArrayCollection<>();
+        assertTrue(emptyCollection.isEmpty());
     }
 
     @Test
-    public void testToArrayWhenInputArrayHaveSizeOne() throws Exception {
-        final Collection<Integer> testInstance = new LinkedList<>();
+    public void testToArrayWhenArrayHaveSizeOne() throws Exception {
+        final Collection<Integer> testInstance = new ArrayCollection<>();
         testInstance.add(1);
         testInstance.add(2);
         testInstance.add(3);
@@ -31,7 +33,9 @@ public class LinkedListTest {
         final Integer[] input = new Integer[1];
 
         final Integer[] result = testInstance.toArray(input);
+
         assertNotEquals(input, result);
+
         assertEquals((Integer) 1, result[0]);
         assertEquals((Integer) 2, result[1]);
         assertEquals((Integer) 3, result[2]);
@@ -40,7 +44,7 @@ public class LinkedListTest {
 
     @Test
     public void testToArrayWhenInputArrayHaveCorrectSize() throws Exception {
-        final Collection<Integer> testInstance = new LinkedList<>();
+        final Collection<Integer> testInstance = new ArrayCollection<>();
         testInstance.add(1);
         testInstance.add(2);
         testInstance.add(3);
@@ -53,7 +57,7 @@ public class LinkedListTest {
 
     @Test
     public void testContains() throws Exception {
-        final Collection<Integer> testInstance = new LinkedList<>();
+        final Collection<Integer> testInstance = new ArrayCollection<>();
         testInstance.add(1);
         testInstance.add(2);
 
@@ -63,7 +67,7 @@ public class LinkedListTest {
 
     @Test
     public void testAdd() throws Exception {
-        final Collection<Integer> testInstance = new LinkedList<>();
+        final Collection<Integer> testInstance = new ArrayCollection<>();
         testInstance.add(1);
         testInstance.add(1);
 
@@ -73,7 +77,7 @@ public class LinkedListTest {
 
     @Test
     public void testRemoveFirstElement() throws Exception {
-        final Collection<Integer> testInstance = new LinkedList<>();
+        final Collection<Integer> testInstance = new ArrayCollection<>();
         testInstance.add(1);
         testInstance.add(2);
         testInstance.remove(1);
@@ -84,7 +88,7 @@ public class LinkedListTest {
 
     @Test
     public void testRemoveLastElement() throws Exception {
-        final Collection<Integer> testInstance = new LinkedList<>();
+        final Collection<Integer> testInstance = new ArrayCollection<>();
         testInstance.add(1);
         testInstance.add(2);
         testInstance.remove(2);
@@ -95,8 +99,8 @@ public class LinkedListTest {
 
     @Test
     public void testContainsAll() throws Exception {
-        final Collection<Integer> testInstance = new LinkedList<>();
-        final Collection<Integer> testInstance2 = new LinkedList<>();
+        final Collection<Integer> testInstance = new ArrayCollection<>();
+        final Collection<Integer> testInstance2 = new ArrayCollection<>();
         testInstance.add(1);
         testInstance.add(2);
 
@@ -108,7 +112,7 @@ public class LinkedListTest {
 
     @Test
     public void testAddAll() throws Exception {
-        final Collection<Integer> testInstance = new LinkedList<>();
+        final Collection<Integer> testInstance = new ArrayCollection<>();
         testInstance.add(1);
         testInstance.add(2);
 
@@ -121,8 +125,8 @@ public class LinkedListTest {
 
     @Test
     public void testRemoveAll() throws Exception {
-        final Collection<Integer> testInstance = new LinkedList<>();
-        final Collection<Integer> testInstance2 = new LinkedList<>();
+        final Collection<Integer> testInstance = new ArrayCollection<>();
+        final Collection<Integer> testInstance2 = new ArrayCollection<>();
         testInstance.add(1);
         testInstance.add(2);
 
@@ -137,8 +141,8 @@ public class LinkedListTest {
 
     @Test
     public void testRetainAll() throws Exception {
-        final Collection<Integer> testInstance = new LinkedList<>();
-        final Collection<Integer> testInstance2 = new LinkedList<>();
+        final Collection<Integer> testInstance = new ArrayCollection<>();
+        final Collection<Integer> testInstance2 = new ArrayCollection<>();
         testInstance.add(1);
         testInstance.add(2);
 
@@ -149,11 +153,12 @@ public class LinkedListTest {
 
         assertEquals(1, testInstance.size());
         assertTrue(testInstance.contains(2));
+        assertFalse(testInstance.contains(1));
     }
 
     @Test
     public void testClear() throws Exception {
-        final Collection<Integer> testInstance = new LinkedList<>();
+        final Collection<Integer> testInstance = new ArrayCollection<>();
         testInstance.add(1);
         testInstance.add(1);
 
@@ -165,7 +170,7 @@ public class LinkedListTest {
 
     @Test
     public void testRemoveBeforeNext() throws Exception {
-        final Collection<Integer> testInstance = new LinkedList<>();
+        final Collection<Integer> testInstance = new ArrayCollection<>();
         testInstance.add(2);
 
         final Iterator<Integer> iter = testInstance.iterator();
@@ -178,7 +183,7 @@ public class LinkedListTest {
 
     @Test
     public void testNextOnEmptyCollection() throws Exception {
-        final Collection<Integer> testInstance = new LinkedList<>();
+        final Collection<Integer> testInstance = new ArrayCollection<>();
         testInstance.add(1);
         testInstance.add(2);
 
@@ -196,7 +201,7 @@ public class LinkedListTest {
 
     @Test
     public void testHasPreviouseWhenIteratorAtTheEndOfTheCollection() {
-        final LinkedList<Integer> testInstance = new LinkedList<>();
+        final ArrayCollection<Integer> testInstance = new ArrayCollection<>();
         testInstance.add(1);
         testInstance.add(2);
 
@@ -208,7 +213,7 @@ public class LinkedListTest {
 
     @Test
     public void testPreviouseIndexWhenItEqualsTo1() {
-        final LinkedList<Integer> testInstance = new LinkedList<>();
+        final ArrayCollection<Integer> testInstance = new ArrayCollection<>();
         testInstance.add(1);
         testInstance.add(1);
 
@@ -221,7 +226,7 @@ public class LinkedListTest {
 
     @Test
     public void testSetWhenNeitherNextNorPreviousHaveBeenCalled() {
-        final LinkedList<Integer> testInstance = new LinkedList<>();
+        final ArrayCollection<Integer> testInstance = new ArrayCollection<>();
         testInstance.add(1);
 
         final ListIterator<Integer> listIterator = testInstance.listIterator();
@@ -235,7 +240,7 @@ public class LinkedListTest {
 
     @Test
     public void testSet() {
-        final LinkedList<Integer> testInstance = new LinkedList<>();
+        final ArrayCollection<Integer> testInstance = new ArrayCollection<>();
         testInstance.add(1);
 
         final ListIterator<Integer> listIterator = testInstance.listIterator();
@@ -246,7 +251,7 @@ public class LinkedListTest {
 
     @Test
     public void testPreviouseOnCollectionWithOneElement() {
-        final LinkedList<Integer> testInstance = new LinkedList<>();
+        final ArrayCollection<Integer> testInstance = new ArrayCollection<>();
         testInstance.add(1);
 
         final ListIterator<Integer> listIterator = testInstance.listIterator();
@@ -257,8 +262,8 @@ public class LinkedListTest {
     }
 
     @Test
-    public void testPreviouseIndex() {
-        final LinkedList<Integer> testInstance = new LinkedList<>();
+    public void testPreviousIndex() {
+        final ArrayCollection<Integer> testInstance = new ArrayCollection<>();
         testInstance.add(1);
 
         final ListIterator<Integer> listIterator = testInstance.listIterator();
@@ -268,8 +273,8 @@ public class LinkedListTest {
     }
 
     @Test
-    public void testPreviouseIndexWhenEmptyCollection() {
-        final LinkedList<Integer> testInstance = new LinkedList<>();
+    public void testPreviousIndexWhenEmptyCollection() {
+        final ArrayCollection<Integer> testInstance = new ArrayCollection<>();
 
         final ListIterator<Integer> listIterator = testInstance.listIterator();
 
@@ -277,8 +282,8 @@ public class LinkedListTest {
     }
 
     @Test
-    public void testPreviouseWhenEmptyCollection() {
-        final LinkedList<Integer> testInstance = new LinkedList<>();
+    public void testPreviousWhenEmptyCollection() {
+        final ArrayCollection<Integer> testInstance = new ArrayCollection<>();
 
         final ListIterator<Integer> listIterator = testInstance.listIterator();
 
@@ -290,8 +295,8 @@ public class LinkedListTest {
     }
 
     @Test
-    public void testHasPreviouseWhenEmptyCollection() {
-        final LinkedList<Integer> testInstance = new LinkedList<>();
+    public void testHasPreviousWhenEmptyCollection() {
+        final ArrayCollection<Integer> testInstance = new ArrayCollection<>();
 
         final ListIterator<Integer> listIterator = testInstance.listIterator();
 
@@ -300,7 +305,7 @@ public class LinkedListTest {
 
     @Test
     public void testRemoveTwoTimeInTheRow() throws Exception {
-        final Collection<Integer> testInstance = new LinkedList<>();
+        final Collection<Integer> testInstance = new ArrayCollection<>();
         testInstance.add(1);
         testInstance.add(2);
 
@@ -316,3 +321,4 @@ public class LinkedListTest {
     }
 
 }
+
