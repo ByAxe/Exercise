@@ -1,4 +1,4 @@
-package exercises.hexlet.collections;
+package exercises.hexlet.collections.array_list;
 
 import java.util.*;
 

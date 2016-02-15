@@ -1,6 +1,5 @@
 package exercises.hexlet.collections.array_list;
 
-import exercises.hexlet.collections.ArrayCollection;
 import org.junit.Test;
 
 import java.util.Collection;

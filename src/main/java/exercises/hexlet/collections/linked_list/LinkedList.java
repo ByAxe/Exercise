@@ -22,14 +22,14 @@ public class LinkedList<T> implements List<T> {
     }
 
     @Override
-    public boolean add(final T t) {
+    public boolean add(final T element) {
         if (isEmpty()) {
-            this.first = new Item<>(t, null, null);
+            this.first = new Item<>(element, null, null);
             this.last = null;
         } else if (size == 1) {
-            this.last = new Item<>(t, this.first, null);
+            this.last = new Item<>(element, this.first, null);
         } else {
-            final Item<T> newLast = new Item<>(t, this.last, null);
+            final Item<T> newLast = new Item<>(element, this.last, null);
             this.last.next = newLast;
             this.last = newLast;
         }
@@ -38,31 +38,54 @@ public class LinkedList<T> implements List<T> {
     }
 
     @Override
-    public void add(final int index, final T t) {
+    public void add(final int index, final T element) {
+        rangeCheckForAdd(index);
 
+        if (isEmpty()) {
+            this.first = new Item<>(element, null, null);
+        } else if (index == 1) {
+            this.last = new Item<>(element, this.first, null);
+        } else {
+            Item<T> current = getByIndex(index);
+            Item<T> newItem = new Item<>(element, current.previous, current);
+
+            current.previous.next = newItem;
+            current.previous = newItem;
+        }
     }
 
     @Override
     public boolean addAll(final Collection<? extends T> c) {
-        return false;
+        c.forEach(this::add);
+        return true;
     }
 
     @Override
     public boolean addAll(final int index, final Collection<? extends T> c) {
+        /*TODO*/
         return false;
     }
 
     public void addFirst(final T element) {
-
+        if (isEmpty()) {
+            first = new Item<>(element, null, null);
+            last = null;
+        } else {
+            final Item<T> newFirst = new Item<>(element, null, first);
+            first.previous = newFirst;
+            first = newFirst;
+        }
     }
 
     public void addLast(final T element) {
-
+        add(element);
     }
 
     @Override
     public void clear() {
-
+        first = null;
+        last = null;
+        size = 0;
     }
 
     @Override
@@ -105,14 +128,52 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public boolean remove(final Object o) {
+        nullCheck(o);
+
         if (isEmpty()) return false;
-        Item<T> current = this.first;
+        Item<T> current = first;
+
         while (current.next != null && !current.element.equals(o)) current = current.next;
 
-        if(current.element.equals(o)){
+        if (current.element.equals(o)) {
+            removeCommon(current);
+            return true;
         }
+        return false;
+    }
 
-        return true;
+    @Override
+    public T remove(final int index) {
+        rangeCheckForAdd(index);
+
+        Item<T> current = getByIndex(index);
+        Item<T> currentPrevious = current.previous;
+
+        if (current != null) {
+            removeCommon(current);
+            return current.element;
+        }
+        return null;
+    }
+
+    private void removeCommon(Item<T> current) {
+
+        if (size == 1) {
+            this.first = null;
+            this.last = null;
+        } else {
+            if (current == first) {
+                first = current.next;
+                first.previous = null;
+            } else if (current == last) {
+                last = current.previous;
+                last.next = null;
+            } else {
+                current.previous.next = current.next;
+                current.next.previous = current.previous;
+            }
+        }
+        size--;
     }
 
     @Override
@@ -131,38 +192,41 @@ public class LinkedList<T> implements List<T> {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return 0;
-    }
-
-    @Override
     public T get(final int index) {
-        return null;
+        rangeCheckForAdd(index);
+        return getByIndex(index).element;
     }
 
     @Override
     public T set(final int index, final T element) {
-        return null;
-    }
-
-    @Override
-    public T remove(final int index) {
-        return null;
+        rangeCheckForAdd(index);
+        return getByIndex(index).element = element;
     }
 
     @Override
     public int indexOf(final Object o) {
-        return 0;
+        nullCheck(o);
+
+        int currentIndex = 0;
+        Item<T> current = first;
+
+        while (current != null && !current.element.equals(o)) currentIndex++;
+        if (current == null) return -1;
+
+        return currentIndex;
     }
 
     @Override
     public int lastIndexOf(final Object o) {
-        return 0;
+        nullCheck(o);
+
+        int currentIndex = size - 1;
+        Item<T> current = last;
+
+        while (current != null && !current.element.equals(o)) currentIndex--;
+        if (current == null) return -1;
+
+        return currentIndex;
     }
 
     @Override
@@ -180,6 +244,17 @@ public class LinkedList<T> implements List<T> {
         return null;
     }
 
+    private Item<T> getByIndex(final int index) {
+        rangeCheckForAdd(index);
+
+        int currentIndex = 0;
+        Item<T> current = first;
+        while (currentIndex != index) {
+            current = current.next;
+            ++currentIndex;
+        }
+        return current;
+    }
 
     private class ElementsIterator implements ListIterator<T> {
 
@@ -193,7 +268,7 @@ public class LinkedList<T> implements List<T> {
         }
 
         public ElementsIterator(final int index) {
-
+            this.current = getByIndex(index);
         }
 
         @Override
@@ -211,27 +286,37 @@ public class LinkedList<T> implements List<T> {
 
         @Override
         public boolean hasPrevious() {
-            return true;
+            return last != null;
         }
 
         @Override
         public T previous() {
-            return null;
+            if (!hasPrevious()) throw new NoSuchElementException();
+            if (current == null) {
+                current = last;
+                last = null;
+            } else {
+                last = current.previous;
+                current = current.previous;
+            }
+            return current.element;
         }
 
         @Override
         public int nextIndex() {
-            return 0;
+            return indexOf(current.element);
         }
 
         @Override
         public int previousIndex() {
-            return 0;
+            return indexOf(last);
         }
 
         @Override
         public void remove() {
-
+            if (last == null) throw new IllegalStateException();
+            LinkedList.this.remove(last);
+            last = null;
         }
 
         @Override
@@ -268,5 +353,13 @@ public class LinkedList<T> implements List<T> {
         public Item<T> getPrevious() {
             return previous;
         }
+    }
+
+    private void rangeCheckForAdd(final int index) {
+        if (index > size || index < 0) throw new IndexOutOfBoundsException();
+    }
+
+    private void nullCheck(final Object element) {
+        if (null == element) throw new NullPointerException();
     }
 }
