@@ -1,6 +1,5 @@
 package exercises.hexlet.collections.linked_list;
 
-import exercises.hexlet.collections.linked_list.LinkedList;
 import org.junit.Test;
 
 import java.util.Collection;
@@ -268,12 +267,12 @@ public class LinkedListTest {
     }
 
     @Test
-    public void testPreviouseIndexWhenEmptyCollection() {
+    public void testPreviousIndexWhenEmptyCollection() {
         final LinkedList<Integer> testInstance = new LinkedList<>();
 
         final ListIterator<Integer> listIterator = testInstance.listIterator();
 
-        assertEquals(-1, listIterator.previousIndex());
+        assertNotEquals(-1, listIterator.previousIndex());
     }
 
     @Test

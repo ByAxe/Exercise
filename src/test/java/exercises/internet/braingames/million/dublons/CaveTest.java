@@ -5,8 +5,9 @@ import org.junit.Test;
 public class CaveTest {
 
     @Test
-    public void testTakes(){
-
+    public void testTakes() {
+        Cave cave = new Cave();
+        System.out.println(cave.findSolution().toString());
     }
 
 }

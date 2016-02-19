@@ -178,6 +178,7 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public boolean containsAll(final Collection<?> c) {
+
         return false;
     }
 
@@ -278,7 +279,8 @@ public class LinkedList<T> implements List<T> {
 
         @Override
         public T next() {
-            if (!hasNext()) throw new NoSuchElementException();
+            if (!hasNext())
+                throw new NoSuchElementException();
             last = current;
             current = current.next;
             return last.element;
@@ -286,7 +288,8 @@ public class LinkedList<T> implements List<T> {
 
         @Override
         public boolean hasPrevious() {
-            return last != null;
+            if (current == first) return false;
+            return true;
         }
 
         @Override
