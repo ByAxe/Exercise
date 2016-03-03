@@ -58,9 +58,7 @@ public class HashSet<T> implements Set<T> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        for (Object item : c) {
-            if (!contains(item)) return false;
-        }
+        c.stream().anyMatch(this::contains);
         return true;
     }
 

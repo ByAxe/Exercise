@@ -61,9 +61,13 @@ public class LinkedList<T> implements List<T> {
     }
 
     @Override
-    public boolean addAll(final int index, final Collection<? extends T> c) {
-        /*TODO*/
-        return false;
+    public boolean addAll(int index, final Collection<? extends T> c) {
+        if (isEmpty()) {
+            c.forEach(this::add);
+        } else {
+            for (T item : c) this.add(index++, item);
+        }
+        return true;
     }
 
     public void addFirst(final T element) {
